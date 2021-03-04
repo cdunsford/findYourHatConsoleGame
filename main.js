@@ -13,6 +13,22 @@ class Field {
       y: 0,
     };
   }
+
+  static generateField(height, width) {
+    let innerField = new Array(height);
+
+    //create 2d array using 1d array
+    for (let i = 0; i < innerField.length; i++) {
+      innerField[i] = new Array(height);
+    }
+
+    //create a blank playing field
+    for (let i = 0; i < height; i++) {
+      for (let j = 0; j < width; j++) {
+        innerField[i][j] = fieldCharacter;
+      }
+    }
+  }
   print(foundHat, foundHatAt) {
     if (foundHat == 1) {
       console.log(
@@ -145,6 +161,8 @@ class Field {
     }
   }
 }
+
+Field.generateField(6, 4);
 
 const myField = new Field([
   ["*", "░", "O"],
