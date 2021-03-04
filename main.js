@@ -13,9 +13,22 @@ class Field {
       y: 0,
     };
   }
-  print() {
+  print(foundHat, foundHatAt) {
+    if (foundHat == 1) {
+      console.log(
+        "Contratulations! You found your at at " +
+          foundHatAt.x +
+          "," +
+          foundHatAt.y
+      );
+    } else if (foundHat == -1) {
+      console.log(
+        `Oh no! You stepped into a hole at at ${foundHatAt.x},${foundHatAt.y}`
+      );
+    }
     let fieldAsString = "";
 
+    console.log("***Field Update***");
     for (let index = 0; index < this._field.length; index++) {
       const element = this._field[index];
 
@@ -32,57 +45,103 @@ class Field {
     switch (direction) {
       case "d":
         if (this.currentLocation.x + 1 >= this._field.length) {
-          console.log("Error: index out of bounds");
-          break;
+          throw new Error("Error: index out of bounds");
         }
 
         this.currentLocation.x += 1;
-        this._field[this.currentLocation.x][
-          this.currentLocation.y
-        ] = pathCharacter;
+
+        if (
+          this._field[this.currentLocation.x][this.currentLocation.y] === hat
+        ) {
+          return 1;
+        } else if (
+          this._field[this.currentLocation.x][this.currentLocation.y] === hole
+        ) {
+          return -1;
+        } else {
+          this._field[this.currentLocation.x][
+            this.currentLocation.y
+          ] = pathCharacter;
+        }
 
         break;
       case "u":
         if (this.currentLocation.x == 0) {
-          console.log("Error: index out of bounds");
+          throw new Error("Error: index out of bounds");
           break;
         }
 
         this.currentLocation.x -= 1;
 
-        this._field[this.currentLocation.x][
-          this.currentLocation.y
-        ] = pathCharacter;
+        if (
+          this._field[this.currentLocation.x][this.currentLocation.y] === hat
+        ) {
+          return 1;
+        } else if (
+          this._field[this.currentLocation.x][this.currentLocation.y] === hole
+        ) {
+          return -1;
+        } else {
+          this._field[this.currentLocation.x][
+            this.currentLocation.y
+          ] = pathCharacter;
+        }
+
         break;
       case "l":
         if (this.currentLocation.y == 0) {
-          console.log("Error: index out of bounds");
+          throw new Error("Error: index out of bounds");
           break;
         }
 
         this.currentLocation.y -= 1;
 
-        this._field[this.currentLocation.x][
-          this.currentLocation.y
-        ] = pathCharacter;
+        if (
+          this._field[this.currentLocation.x][this.currentLocation.y] === hat
+        ) {
+          return 1;
+        } else if (
+          this._field[this.currentLocation.x][this.currentLocation.y] === hole
+        ) {
+          return -1;
+        } else {
+          this._field[this.currentLocation.x][
+            this.currentLocation.y
+          ] = pathCharacter;
+        }
+
         break;
       case "r":
         if (
           this.currentLocation.y + 1 >=
           this._field[this.currentLocation.x].length
         ) {
-          console.log("Error: index out of bounds");
+          throw new Error("Error: index out of bounds");
           break;
         }
 
         this.currentLocation.y += 1;
-        this._field[this.currentLocation.x][
-          this.currentLocation.y
-        ] = pathCharacter;
+
+        if (
+          this._field[this.currentLocation.x][this.currentLocation.y] === hat
+        ) {
+          return 1;
+        } else if (
+          this._field[this.currentLocation.x][this.currentLocation.y] === hole
+        ) {
+          return -1;
+        } else {
+          this._field[this.currentLocation.x][
+            this.currentLocation.y
+          ] = pathCharacter;
+        }
+
         break;
 
       default:
         break;
+
+        return 0;
     }
   }
 }
@@ -94,22 +153,25 @@ const myField = new Field([
   ["░", "░", "░"],
 ]);
 //console.log(myField._field[2][1]);
-myField.print();
+myField.print(false, this.currentLocation);
 
 let direction = "";
 
 do {
-  //direction = prompt("Which direction do you want to go? Or press q to quit: ");
+  direction = prompt("Which direction do you want to go? Or press q to quit: ");
 
-  direction = "d";
-  myField.move(direction);
-  myField.print();
+  //direction = "d";
+  let foundHat = 0;
 
-  direction = "l";
-  myField.move(direction);
-  myField.print();
+  try {
+    foundHat = myField.move(direction);
+  } catch (error) {
+    console.log(error.message);
+    direction = "q";
+  }
 
-  direction = "r";
-  myField.move(direction);
+  if (foundHat == 1 || foundHat == -1) {
+    direction = "q";
+  }
+  myField.print(foundHat, myField.currentLocation);
 } while (direction != "q");
-//let direction = "d";
