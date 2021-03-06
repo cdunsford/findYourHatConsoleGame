@@ -27,7 +27,7 @@ class Field {
 
     //create 2d array using 1d array
     for (let i = 0; i < innerField.length; i++) {
-      innerField[i] = new Array(height);
+      innerField[i] = new Array(width);
     }
 
     //create a blank playing field
@@ -68,6 +68,8 @@ class Field {
         
       }
     }
+
+    return innerField;
   }
   print(foundHat, foundHatAt) {
     if (foundHat == 1) {
@@ -204,14 +206,17 @@ class Field {
 
 Field.generateField(6, 4);
 
-const myField = new Field([
+/* const myField = new Field([
   ["*", "░", "O"],
   ["░", "O", "░"],
   ["░", "^", "░"],
   ["░", "░", "░"],
-]);
+]); */
+
+const myField = new Field(Field.generateField(6,4));
+
 //console.log(myField._field[2][1]);
-myField.print(false, this.currentLocation);
+myField.print(false, myField.currentLocation);
 
 let direction = "";
 
