@@ -17,6 +17,10 @@ class Field {
   static generateField(height, width) {
     let innerField = new Array(height);
 
+    //randomize where the hat will go
+    let x = Math.floor(Math.random() * Math.floor(height-1));
+    let y = Math.floor(Math.random() * Math.floor(width-1));
+
     //create 2d array using 1d array
     for (let i = 0; i < innerField.length; i++) {
       innerField[i] = new Array(height);
@@ -25,7 +29,16 @@ class Field {
     //create a blank playing field
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
-        innerField[i][j] = fieldCharacter;
+
+        //x and y from random number to place a hat at the location
+        if(i == x && y == j){
+          innerField[i][j] = hat;
+
+        }
+        else{
+          innerField[i][j] = fieldCharacter;
+        }
+        
       }
     }
   }
