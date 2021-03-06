@@ -21,6 +21,10 @@ class Field {
     let x = Math.floor(Math.random() * Math.floor(height-1));
     let y = Math.floor(Math.random() * Math.floor(width-1));
 
+    //randomize the number of holes on the field. We will use the height param
+    let numberOfHoles = Math.floor(Math.random() * Math.floor(height));
+    let holeCount = 0;
+
     //create 2d array using 1d array
     for (let i = 0; i < innerField.length; i++) {
       innerField[i] = new Array(height);
@@ -30,13 +34,36 @@ class Field {
     for (let i = 0; i < height; i++) {
       for (let j = 0; j < width; j++) {
 
+        if(i == 0 && j == 0){
+
+          //start player at top-left postion
+          innerField[i][j] = pathCharacter;
+          continue;
+        }
+
         //x and y from random number to place a hat at the location
         if(i == x && y == j){
           innerField[i][j] = hat;
 
         }
         else{
-          innerField[i][j] = fieldCharacter;
+          let addHole = 0;
+
+          if(holeCount <= height){
+            //flip a coin to see if we add a hole at this location on the field (50% chance)
+            addHole = Math.floor(Math.random() * Math.floor(2));
+
+          }          
+
+          if(addHole > 0 && holeCount <= height){
+            innerField[i][j] = hole;
+            holeCount++;
+          }
+          else{
+            innerField[i][j] = fieldCharacter;
+
+          }
+          
         }
         
       }
